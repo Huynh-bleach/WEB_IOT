@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="E:\HTML-CSS\assets\fonts/fontawesome-free-6.2.0-web/css/all.css">
+
+    <script src="https://kit.fontawesome.com/251dd34c64.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="https://luv.vn/wp-content/uploads/2021/09/tranh-ve-phong-canh-ha-noi-17-1.jpg"
+        type="image/x-icon" />
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <title>AGRICULTURAL SUPERVISION</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="./index.css">
+
+</head>
+
+
+<body>
+
+
+
+
+
+    
+    <div id="home" class="tab-pane active">
+
+        <div class="main">
+            <h1>UPDATE ON THE SITUATION IN THE GREENHOUSE</h1>
+
+        </div>
+        <div class="content">
+            <div class="temp">
+                <i class="fa-solid fa-temperature-half"></i>
+                <h2>TEMPERATURE DISPLAY:
+                    <span id="nhietdos">0</span>°C
+                </h2>
+
+            </div>
+            <div class="fah">
+                <i class="fa-solid fa-droplet"></i>
+                <h2>TEMPERATURE DISPLAY IN DEGREES F:
+                    <span id="nhietdoFs">0</span>°F
+
+                </h2>
+
+            </div>
+            <div class="humi">
+                <i class="fa-solid fa-percent"></i>
+                <h2>HUMIDITY DISPLAY:
+                    <span id="doams">0</span>%
+
+                </h2>
+            </div>
+
+            <div class="soid">
+                <i class="fa-solid fa-land-mine-on"></i>
+                <h2>SOIL MOISTURE DISPLAY:
+                    <span id="doamdats">0</span>%
+                </h2>
+            </div>
+
+            <div class="light">
+                <i class="fa-regular fa-sun"></i>
+                <h2>LIGHT SITUATION:
+                    <span id="anhsangs">0</span>
+                </h2>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="tab-pane" id="chart" style="text-align: center; align-items: center; max-height: 550px;">
+        <canvas id="myChart" style="height: 500px;"></canvas>
+    </div>
+
+    <div id="toast" class="tab-pane">
+
+        <h1 id="intro">SET UP AUTOMATIC CONTROL</h1>
+        <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="0" class="slid slid_change" id="my0">
+            <p id="quay">TEMPERATURE: <span id="demo0"></span><span id="do"> °C</span></p>
+        </div>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="0" class="slid slid_change" id="my2">
+            <p id="quay">SOIL MOISTURE: <span id="demo2"></span><span id="do"> %</span></p>
+        </div>
+
+       <!-- <div class="slidecontainer">
+            <input type="range" min="0" max="1800" value="0" class="slid slid_change" id="my3">
+            <p id="quay">THỜI GIAN LẤY DỮ LIỆU: <span id="demo3"></span><span id="do"> s</span></p>
+        </div>-->
+
+        <div id="container">
+            <div id="toggle">
+                <div id="toggle_button"></div>
+                <div class="text"></div>
+            </div>
+        </div>
+
+        <div class="nutnhan" id="button_media_on">
+            <div class="led" id="led" title="1">
+                <div class="btn btn_on">
+                    <div class="btn_1">ON LED</div>
+                </div>
+            </div>
+
+
+            <div class="fan" id="fan" title="1">
+                <div class="btn btn_on">
+                    <div class="btn_1">ON FAN</div>
+                </div>
+            </div>
+
+
+            <div class="pump" id="pump" title="1">
+                <div class="btn btn_on">
+                    <div class="btn_1">ON PUMP</div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="nutnhan" id="button_media_off">
+            <div class="led" id="led1" title="0">
+                <div class="btn btn_off">
+                    <div class="btn_1">OFF LED</div>
+                </div>
+            </div>
+
+
+            <div class="fan" id="fan1" title="0">
+                <div class="btn btn_off">
+                    <div class="btn_1">OFF FAN</div>
+                </div>
+            </div>
+
+
+            <div class="pump" id="pump1" title="0">
+                <div class="btn btn_off">
+                    <div class="btn_1">OFF PUMP</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="tab-pane">
+    </div>
+
+
+
+
+    <div id="icon_bar">
+        <div id="baricon">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </div>
+ <div id="task_mobile">
+        <div class="tabs">
+            <img class="img_bar" src="https://luv.vn/wp-content/uploads/2021/09/tranh-ve-phong-canh-ha-noi-17-1.jpg">
+            <h3>USER NAME</h3>
+            <div id="icon_home" class="tab-item active">
+                <i class="fa-sharp fa-solid fa-house"></i>
+                <h4>Home</h4>
+
+            </div>
+
+            <div id="icon_chart" class="tab-item">
+                <i class="fa-sharp fa-solid fa-chart-line"></i>
+                <h4>Chart</h4>
+
+            </div>
+
+            <div id="icon_setting" class="tab-item">
+                <i class="fa-sharp fa-solid fa-gear"></i>
+                <h4>Setting</h4>
+            </div>
+
+            <div id="icon_video" class="tab-item">
+                <i class="fa-solid fa-video"></i>
+                <h4>Video</h4>
+
+            </div>
+            <div class="line"></div>
+        </div>
+    </div>
+
+
+    
+    <div id="change_img" class="modal">
+        <div class="modal__overlay"></div>
+
+        <div class="modal__body">
+
+            <!--login form-->
+            <div class="auth-form">
+                <div class="auth-form__container">
+                    <div class="auth-form__header">
+                        <h3 class="auth-form__heading"><i
+                                style="color: rgb(130, 201, 24); font-size: 24px; margin: 2px 5px auto -12px; "
+                                class="fa-regular fa-image"></i> Thay đổi hình nền</h3>
+
+                    </div>
+                    <div class="auth-form__form">
+                        <div class="auth-form__group">
+                            <input type="text" class="auth-form__input" placeholder="Link hình nền của bạn">
+                        </div>
+
+                        <!-- <div class="auth-form__group">
+                      <input type="password" class="auth-form__input" placeholder="Mật khẩu của bạn">
+                  </div>-->
+                    </div>
+
+
+                    <div class="auth-form__controls">
+
+                        <button id="btnXN" class="btnXN btn--primary">XÁC NHẬN</button>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="select">
+
+        <i id="select_img" style="color: rgb(130, 201, 24); font-size: 40px;" class="fa-regular fa-image"></i>
+        <p>Select img</p>
+
+    </div>
+
+
+
+
+
+    <script src="./index.js"></script>
+</body>
+
+</html>
