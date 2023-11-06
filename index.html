@@ -318,7 +318,7 @@
         var ledcontrol = document.querySelectorAll("#ledcontrol");
         console.log(buttonXN);
 
-        client = new Paho.MQTT.Client("ngoinhaiot.com", Number(3333), "/ws", "client3");
+        client = new Paho.MQTT.Client("ngoinhaiot.com", Number(3333), "/wss", "client3");
 
         // set callback handlers
         client.onConnectionLost = function (responseObject) {
