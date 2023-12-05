@@ -1,4 +1,5 @@
 var nhietdo;
+
 var doam;
 var doamdat;
 var samplingTime = 10000;
