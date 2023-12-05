@@ -1,4 +1,3 @@
-
 var nhietdo;
 var doam;
 var doamdat;
@@ -10,6 +9,8 @@ var giatri_3 = [];
 var toggle = document.querySelector(".toggle");
 var text = document.querySelector(".text");
 var bieudo = document.getElementById("myChart").getContext('2d');
+
+
 var image;
 var inputElement = document.querySelector('input[type="text"]');
 var html = document.querySelector('html');
@@ -20,212 +21,197 @@ var valiable = 0;
 var button_control = document.getElementById('toggle_button');
 var text_control = document.querySelector('.text');
 var idcontrol = document.getElementById("toggle");
+
+var ledcontrol = document.querySelectorAll("#ledcontrol");
+
+var value = 0;
 console.log(buttonXN);
 
-getkiemtraNT();
-getkiemtraDAD();
-getkiemtraTime();
 
-getControl();
-getImage("https://haycafe.vn/wp-content/uploads/2021/12/Download-hinh-nen-anime-cho-desktop-thanh-pho-duoi-trang.jpg");
+const brokerUrl = 'ws://ngoinhaiot.com:2222'; // Replace with your MQTT broker's URL and port
+const username = 'Huynh1611';
+const password = 'D4D94FE836AB48D8';
 
-// getControl()
+var topicToPublish = 'Huynh1611/esp32client'; // Replace with your topic
+var messageToPublish = 'Hello, MQTT from the web!'; // Message to publish
+var html = document.querySelector('html');
+var received;
+const client = mqtt.connect(brokerUrl, {
+    clientId: 'webclient', // Client ID for the web browser
+    username,
+    password,
+});
+
+// Handle the 'connect' event
+client.on('connect', function () {
+    alert('Connected to MQTT broker');
+
+    // Subscribe to a topic
+    const topicToSubscribe = 'Huynh1611/clientweb'; // Replace with your topic
+    client.subscribe(topicToSubscribe, { qos: 0 }, function (error, granted) {
+        if (!error) {
+            console.log(`Subscribed to ${topicToSubscribe}`);
+        } else {
+            console.error('Error subscribing to topic:', error);
+        }
+        var messagemaster = '{"kind":' + 0 + ',"val":' + 0 + '}';
+
+        client.publish(topicToPublish, messagemaster, { qos: 0 }, function (error) {
+            if (!error) {
+                console.log(`Published to ${topicToPublish}: ${messagemaster}`);
+            } else {
+                console.error('Error publishing message:', error);
+            }
+        });
+
+    });
+
+    // Publish a message to a topic
+
+
+
+});
+
+// Handle incoming messages
+client.on('message', function (topic, message) {
+    console.log(`Received message on topic ${topic}: ${message.toString()}`);
+    received = JSON.parse(message.toString());
+    console.log(received);
+    console.log(typeof received);
+    // Handle the incoming message as needed
+
+    if (received.kind == 1) {
+        console.log(received.val);
+        document.getElementById('temp_gauges').setAttribute('data-value', `${obj.val}`);
+        document.getElementById("nhietdos").innerHTML = obj.val;
+
+        nhietdo = parseInt(obj.val);
+    }
+
+    if (received.kind == 2) {
+        console.log(received.val);
+        document.getElementById('humi_gauges').setAttribute('data-value', `${obj.val}`);
+        document.getElementById("doams").innerHTML = obj.val;
+
+        doam = parseInt(obj.val);
+    }
+
+    if (received.kind == 5) {
+        document.getElementById('fah_gauges').setAttribute('data-value', `${obj.val}`);
+        document.getElementById("nhietdoFs").innerHTML = obj.val;
+
+    }
+
+    if (received.kind == 4) {
+        document.getElementById('soid_gauges').setAttribute('data-value', `${obj.val}`);
+        document.getElementById("doamdats").innerHTML = obj.val;
+
+        doamdat = parseInt(obj.val);
+    }
+
+    if (received.kind == 3) {
+        document.getElementById('light_gauges').setAttribute('data-value', `${obj.val}`);
+        document.getElementById("anhsangs").innerHTML = obj.val;
+
+    }
+
+    if (received.kind == 10) {
+        document.getElementById("my0").value = obj.led;
+        document.getElementById("demo0").innerHTML = obj.led;
+
+        document.getElementById("my2").value = obj.fan;
+        document.getElementById("demo2").innerHTML = obj.fan;
+
+        document.getElementById("my3").value = obj.pump;
+        document.getElementById("demo3").innerHTML = obj.pump;
+
+    }
+
+});
+
+// Handle errors
+client.on('error', function (error) {
+    console.error('MQTT connection error:', error);
+});
+
+
+/*
+
+var object = {
+    BUTTON: {
+        LED: 1,
+        FAN: 1,
+        PUMP: 1
+    },
+    SLIDE: {
+        PWMled: 10,
+        PWMfan: 20,
+        PWMpump: 30
+    },
+    IMAGE: "https://static.lag.vn/upload/news/23/07/14/jujutsu-kaisen-giai-thich-suc-manh-thuat-thuc-gojo-satoru_AUQY.jpg"
+}
+*/
+/*
 setInterval(function () {
-    // Call a function repetatively with 2 Second interval
-    getnhietdo();
-    getnhietdoF();
-    getdoam();
-    //------------------
-    getdoamdat();
-    getanhsang();
-
-
-}, 1000); //2000mSeconds update rate
-
-
-
-
-
-function getkiemtraTime() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-
-            document.getElementById("my3").value = this.responseText;
-            document.getElementById("demo3").innerHTML = this.responseText;
-            console.log(typeof this.responseText);
-            console.log(this.responseText);
-
+    var key = 1;
+    messageToPublish = '{"kind":' + key + ',"val":' + value + '}';
+    client.publish(topicToPublish, messageToPublish, { qos: 0 }, function (error) {
+        if (!error) {
+            console.log(`Published to ${topicToPublish}: ${messageToPublish}`);
+        } else {
+            console.error('Error publishing message:', error);
         }
-    };
-    xhttp.open("GET", "kiemtraTime", true);
-    xhttp.send();
-}
+    });
 
-function getkiemtraNT() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("my0").value = this.responseText;
-            document.getElementById("demo0").innerHTML = this.responseText;
-            console.log(this.responseText);
-
-        }
-    };
-    xhttp.open("GET", "kiemtraNT", true);
-    xhttp.send();
-}
-
-function getkiemtraDAD() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-
-
-            document.getElementById("my2").value = this.responseText;
-            document.getElementById("demo2").innerHTML = this.responseText;
-            console.log(this.responseText);
-
-        }
-    };
-    xhttp.open("GET", "kiemtraDAD", true);
-    xhttp.send();
-}
-
-function getControl() {
-    // var xhttp = new XMLHttpRequest();
-    // xhttp.onreadystatechange = function () {
-    //    if (this.readyState == 4 && this.status == 200) {
-
-
-    var controller = 1;
-
-    if (controller == 1) {
-        button_control.className = 'toggle-on';
-        text_control.className = 'text-on';
-        text_control.textContent = "AUTOMATIC"
-        button_control.setAttribute('onclick', 'Toggle_CHECK()');
-        idcontrol.style.background = 'linear-gradient(135deg, #ff3300, #86d472)';
-        update_control_button("none");
-
+    if (value == 0) {
+        value = 1;
     }
-
     else {
-
-        button_control.className = 'toggle-off';
-        text_control.className = 'text-off';
-        text_control.textContent = "MANUAL";
-        button_control.setAttribute('onclick', 'Toggle_CHECK()');
-        idcontrol.style.background = 'linear-gradient(135deg, #e1e822, #1eb3c7)';
-        update_control_button("flex");
-
-
+        value = 0;
     }
 
-    //   }
-    // };
-    // xhttp.open("GET", "kiemtraCONTROL", true);
-    // xhttp.send();
-}
+}, 6000)
 
-function getImage() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
 
-            html.style.background = `url(${this.responseText})`;
-            change_img.style.display = "none";
-            change_image();
 
+messageToPublish = JSON.stringify(object);
+console.log(messageToPublish);
+*/
+function SENDMQTT(key, value){
+    var Sdata = '{"kind":' + key + ',"val":' + value + '}';
+
+    console.log(Sdata);
+
+    client.publish(topicToPublish, Sdata, { qos: 0 }, function (error) {
+        if (!error) {
+            console.log(`Published to ${topicToPublish}: ${Sdata}`);
+        } else {
+            console.error('Error publishing message:', error);
         }
-    };
-    xhttp.open("GET", "kiemtraIMAGE", true);
-    xhttp.send();
-
-
-}
-
-function getnhietdo() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("nhietdos").innerHTML = this.responseText;
-
-            nhietdo = parseInt(this.responseText);
-
-        }
-    };
-    xhttp.open("GET", "docnhietdo", true);
-    xhttp.send();
-}
-
-function getnhietdoF() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("nhietdoFs").innerHTML = this.responseText;
-
-
-        }
-    };
-    xhttp.open("GET", "docnhietdoF", true);
-    xhttp.send();
-}
-
-function getdoam() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("doams").innerHTML = this.responseText;
-
-            doam = parseInt(this.responseText);
-
-        }
-    };
-    xhttp.open("GET", "docdoam", true);
-    xhttp.send();
-}
-
-//------------------------------------------
-
-function getdoamdat() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("doamdats").innerHTML = this.responseText;
-
-            doamdat = parseInt(this.responseText);
-
-            console.log(fan);
-
-        }
-    };
-    xhttp.open("GET", "docdoamdat", true);
-    xhttp.send();
+    });
+    
 }
 
 
 
-function getanhsang() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("anhsangs").innerHTML = this.responseText;
 
 
-        }
-    };
-    xhttp.open("GET", "docanhsang", true);
-    xhttp.send();
-}
+
+
+
+
+
+
+
+
+
+
 
 setInterval(function () {
     const d = new Date();
     let hour = d.getHours();
 
     let phut = d.getMinutes();
-
-
 
     var time = hour.toString() + ":" + phut.toString();
 
@@ -340,11 +326,11 @@ tabs.forEach((tab, index) => {
     tab.onclick = function () {
         $(".tab-item.active").classList.remove("active");
         $(".tab-pane.active").classList.remove("active");
-        if(screen.width < 740){
+        if (screen.width < 740) {
             document.getElementById("task_mobile").style.display = "none";
 
         }
-        
+
         console.log(typeof this);
 
         const transmit = this.textContent;
@@ -359,7 +345,7 @@ tabs.forEach((tab, index) => {
             line.style.bottom = "54px";
         }
 
-        else if (transmit.includes("Video")) {
+        else if (transmit.includes("Other")) {
             line.style.bottom = "0px";
         }
         else {
@@ -408,43 +394,6 @@ function sendData_PUMP(pos) {
     xhttp.send();
 }
 
-var button_led = document.getElementById("led");
-
-button_led.onclick = function () {
-    sendData_LED(button_led.title)
-
-}
-
-var button_led1 = document.getElementById("led1");
-
-button_led1.onclick = function () {
-    sendData_LED(button_led1.title);
-}
-
-
-var button_fan = document.getElementById("fan");
-
-button_fan.onclick = function () {
-    sendData_FAN(button_fan.title);
-}
-
-var button_fan1 = document.getElementById("fan1");
-
-button_fan1.onclick = function () {
-    sendData_FAN(button_fan1.title);
-}
-var button_pump = document.getElementById("pump");
-
-button_pump.onclick = function () {
-    sendData_PUMP(button_pump.title);
-}
-
-var button_pump1 = document.getElementById("pump1");
-
-button_pump1.onclick = function () {
-    sendData_PUMP(typeof button_pump1.title);
-}
-
 inputElement.onchange = function (e) {
 
     console.log(e.target.value);
@@ -456,12 +405,12 @@ inputElement.onchange = function (e) {
 
 buttonXN.onclick = function () {
 
-    if (image.includes(".png") || image.includes(".jpg")) {
+    if (image.includes(".png") || image.includes(".jpg") || image.includes(".jpeg")) {
         console.log("in ra");
         html.style.background = `url(${image})`;
         change_img.style.display = "none";
         change_image();
-        Sendata_image(image);
+        SENDMQTT("image", image);
 
     }
     else {
@@ -480,14 +429,9 @@ select_img.onclick = function () {
 var icon_bar = document.getElementById("baricon");
 console.log(icon_bar);
 
-icon_bar.onclick= function(){
+icon_bar.onclick = function () {
     document.getElementById("task_mobile").style.display = "block";
 };
-
-
-
-
-
 
 function change_image() {
     html.style.backgroundRepeat = "no-repeat";
@@ -495,75 +439,40 @@ function change_image() {
     html.style.backgroundPosition = "center";
 }
 
-
-function Sendata_image(img) {
-    console.log("link hinh anh la: ", img);
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-        }
-    };
-    xhttp.open("GET", "setIMAGE?IMAGE=" + img, true);
-    xhttp.send();
+function change_image_mobile() {
+    html.style.height = "100%";
+    html.style.backgroundSize = "auto 100%";
+    html.style.backgroundRepeat = "no-repeat";
+    html.style.backgroundPosition = "center";
 }
 
-function sendData_NT(pos) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-
-            console.log(this.responseText);
-        }
-    };
-    xhttp.open("GET", "setKTNT?KTNT=" + pos, true);
-    xhttp.send();
-}
 var s0 = document.getElementById("my0");
 var o0 = document.getElementById("demo0");
 o0.innerHTML = s0.value;
 
 s0.oninput = function () {
     o0.innerHTML = this.value;
-    sendData_NT(o0.innerHTML);
+    SENDMQTT(11, o0.innerHTML);
 }
 
-function sendData_DAD(pos) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-        }
-    };
-    xhttp.open("GET", "setKTDAD?KTDAD=" + pos, true);
-    xhttp.send();
-}
+
 var s2 = document.getElementById("my2");
 var o2 = document.getElementById("demo2");
 o2.innerHTML = s2.value;
 
 s2.oninput = function () {
     o2.innerHTML = this.value;
-    sendData_DAD(o2.innerHTML);
+    SENDMQTT(12, o2.innerHTML);
 }
 
-function sendData_TIME(pos) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-        }
-    };
-    xhttp.open("GET", "setTIME?TIME=" + pos, true);
-    xhttp.send();
-}
+
 var s3 = document.getElementById("my3");
 var o3 = document.getElementById("demo3");
 o3.innerHTML = s3.value;
 
 s3.oninput = function () {
     o3.innerHTML = this.value;
-    sendData_TIME(o3.innerHTML);
+    SENDMQTT(13, o3.innerHTML);
 }
 
 function button() {
@@ -622,15 +531,97 @@ function Sendata_control(val) {
 function update_control_button(signal) {
 
     document.getElementById("button_media_on").style.display = signal;
-    document.getElementById("button_media_off").style.display = signal;
+    //document.getElementById("button_media_off").style.display = signal;
 
 }
 
 
 
 var icon_bar = document.getElementById("baricon");
+console.log("hienj thi len");
 console.log(icon_bar);
 
-icon_bar.onclick= function(){
+
+icon_bar.onclick = function () {
     document.getElementById("task_mobile").style.display = "block";
 };
+
+
+
+
+var sendcontrol = document.getElementById("toggle_control");
+
+
+
+function control_button(val, title) {
+    console.log('dang su dung:', val, 'vaf title la:', title);
+
+    if (document.querySelectorAll("#toggle_control")[val].style.order == "0") {
+        mode_button_control_OFF(val, title)
+        console.log("OFF");
+        select_button_control(0, title);
+    }
+    else {
+        mode_button_control_ON(val, title)
+        console.log("ON");
+        select_button_control(1, title);
+
+    }
+}
+function select_button_control(number, property) {
+    if (property == "LED") {
+        console.log("TIEN HANH DIEU KHIEN l ", property);
+        console.log("DANG O TRANG THAI: ", number);
+        SENDMQTT(6, number)
+    }
+    else if (property == "FAN") {
+        console.log("TIEN HANH DIEU KHIEN f ", property);
+        console.log("DANG O TRANG THAI: ", number);
+        SENDMQTT(7, number);
+    }
+    else {
+        console.log("TIEN HANH DIEU KHIEN  p ", property);
+        console.log("DANG O TRANG THAI: ", number);
+        SENDMQTT(8, number);
+    }
+}
+
+
+
+function mode_button_control_OFF(val, title) {
+    document.querySelectorAll("#text_led")[val].style.order = '0';
+    document.querySelectorAll("#toggle_control")[val].style.order = '1';
+    document.querySelectorAll("#text_led")[val].innerHTML = `OFF ${title}`;
+    ledcontrol[val].style.backgroundImage = "linear-gradient(135deg, #e1e822, #1eb3c7)";
+}
+
+function mode_button_control_ON(val, title) {
+    document.querySelectorAll("#toggle_control")[val].style.order = '0';
+    document.querySelectorAll("#text_led")[val].style.order = '1';
+    document.querySelectorAll("#text_led")[val].innerHTML = `ON ${title}`;
+    ledcontrol[val].style.backgroundImage = "linear-gradient(135deg, #E83507, #86d472)";
+}
+
+/* function displayWindowSize() {
+     if (window.outerWidth < 785) {
+         console.log("Thay doi man hinh!");
+         html.style.backgroundImage = `url(${image})`;
+         change_image_mobile();
+     }
+ }
+ window.onresize = displayWindowSize;*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
