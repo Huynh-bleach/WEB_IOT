@@ -82,48 +82,48 @@ client.on('message', function (topic, message) {
 
     if (received.kind == 1) {
         console.log(received.val);
-        document.getElementById('temp_gauges').setAttribute('data-value', `${obj.val}`);
-        document.getElementById("nhietdos").innerHTML = obj.val;
+        document.getElementById('temp_gauges').setAttribute('data-value', `${received.val}`);
+        document.getElementById("nhietdos").innerHTML = received.val;
 
-        nhietdo = parseInt(obj.val);
+        nhietdo = parseInt(received.val);
     }
 
     if (received.kind == 2) {
         console.log(received.val);
-        document.getElementById('humi_gauges').setAttribute('data-value', `${obj.val}`);
-        document.getElementById("doams").innerHTML = obj.val;
+        document.getElementById('humi_gauges').setAttribute('data-value', `${received.val}`);
+        document.getElementById("doams").innerHTML = received.val;
 
-        doam = parseInt(obj.val);
+        doam = parseInt(received.val);
     }
 
     if (received.kind == 5) {
-        document.getElementById('fah_gauges').setAttribute('data-value', `${obj.val}`);
-        document.getElementById("nhietdoFs").innerHTML = obj.val;
+        document.getElementById('fah_gauges').setAttribute('data-value', `${received.val}`);
+        document.getElementById("nhietdoFs").innerHTML = received.val;
 
     }
 
     if (received.kind == 4) {
-        document.getElementById('soid_gauges').setAttribute('data-value', `${obj.val}`);
-        document.getElementById("doamdats").innerHTML = obj.val;
+        document.getElementById('soid_gauges').setAttribute('data-value', `${received.val}`);
+        document.getElementById("doamdats").innerHTML = received.val;
 
-        doamdat = parseInt(obj.val);
+        doamdat = parseInt(received.val);
     }
 
     if (received.kind == 3) {
-        document.getElementById('light_gauges').setAttribute('data-value', `${obj.val}`);
-        document.getElementById("anhsangs").innerHTML = obj.val;
+        document.getElementById('light_gauges').setAttribute('data-value', `${received.val}`);
+        document.getElementById("anhsangs").innerHTML = received.val;
 
     }
 
     if (received.kind == 10) {
-        document.getElementById("my0").value = obj.led;
-        document.getElementById("demo0").innerHTML = obj.led;
+        document.getElementById("my0").value = received.led;
+        document.getElementById("demo0").innerHTML = received.led;
 
-        document.getElementById("my2").value = obj.fan;
-        document.getElementById("demo2").innerHTML = obj.fan;
+        document.getElementById("my2").value = received.fan;
+        document.getElementById("demo2").innerHTML = received.fan;
 
-        document.getElementById("my3").value = obj.pump;
-        document.getElementById("demo3").innerHTML = obj.pump;
+        document.getElementById("my3").value = received.pump;
+        document.getElementById("demo3").innerHTML = received.pump;
 
     }
 
