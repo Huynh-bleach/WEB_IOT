@@ -115,7 +115,7 @@ client.on('message', function (topic, message) {
 
     }
 
-    if (received.kind == 10) {
+       if (received.kind == 10) {
         document.getElementById("my0").value = received.led;
         document.getElementById("demo0").innerHTML = received.led;
 
@@ -125,6 +125,71 @@ client.on('message', function (topic, message) {
         document.getElementById("my3").value = received.pump;
         document.getElementById("demo3").innerHTML = received.pump;
 
+        if (received.buttonled == 1) {
+            mode_button_control_ON(0, "LED");
+        }
+        if (received.buttonled == 0) {
+            mode_button_control_OFF(0, "LED");
+        }
+
+        if (received.buttonfan == 1) {
+            mode_button_control_ON(1, "FAN");
+        }
+        if (received.buttonfan == 0) {
+            mode_button_control_OFF(1, "FAN");
+        }
+
+        if (received.buttonpump == 1) {
+            mode_button_control_ON(2, "PUMP");
+        }
+        if (received.buttonpump == 0) {
+            mode_button_control_OFF(2, "PUMP");
+        }
+
+
+    }
+
+    if (received.kind == 14) {
+        document.getElementById("my0").value = received.val;
+        document.getElementById("demo0").innerHTML = received.val;
+    }
+
+    if (received.kind == 15) {
+        document.getElementById("my2").value = received.val;
+        document.getElementById("demo2").innerHTML = received.val;
+    }
+
+    if (received.kind == 16) {
+        document.getElementById("my3").value = received.val;
+        document.getElementById("demo3").innerHTML = received.val;
+    }
+
+    if (received.kind == 17) {
+        if (received.val == 1) {
+            mode_button_control_ON(0, "LED");
+        }
+        if (received.val == 0) {
+            mode_button_control_OFF(0, "LED");
+        }
+    }
+
+    if (received.kind == 18) {
+
+        if (received.val == 1) {
+            mode_button_control_ON(1, "FAN");
+        }
+        if (received.val == 0) {
+            mode_button_control_OFF(1, "FAN");
+        }
+    }
+
+    if (received.kind == 19) {
+        if (received.val == 1) {
+            mode_button_control_ON(2, "PUMP");
+        }
+        if (received.val == 0) {
+            mode_button_control_OFF(2, "PUMP");
+        }
     }
 
 });
