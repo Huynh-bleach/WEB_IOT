@@ -29,6 +29,17 @@ var value = 0;
 console.log(buttonXN);
 
 
+function generateRandomClientId() {
+  const length = 16; // Độ dài của clientId, bạn có thể thay đổi tuỳ ý
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
+
 //const brokerUrl = 'wss://69eee63065914a2d80ab76484db20ba5.s2.eu.hivemq.cloud:8884/mqtt'; // Replace with your MQTT broker's URL and port
 //const username = 'huynhdcv1201';
 //const password = '1611mqtt';
@@ -42,7 +53,7 @@ var messageToPublish = 'Hello, MQTT from the web!'; // Message to publish
 var html = document.querySelector('html');
 var received;
 const client = mqtt.connect(brokerUrl, {
-    clientId: 'webclient', // Client ID for the web browser
+    clientId: generateRandomClientId(), // Client ID for the web browser
     username,
     password,
 });
