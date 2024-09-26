@@ -29,9 +29,13 @@ var value = 0;
 console.log(buttonXN);
 
 
-const brokerUrl = 'wss://69eee63065914a2d80ab76484db20ba5.s2.eu.hivemq.cloud:8884/mqtt'; // Replace with your MQTT broker's URL and port
-const username = 'huynhdcv1201';
-const password = '1611mqtt';
+//const brokerUrl = 'wss://69eee63065914a2d80ab76484db20ba5.s2.eu.hivemq.cloud:8884/mqtt'; // Replace with your MQTT broker's URL and port
+//const username = 'huynhdcv1201';
+//const password = '1611mqtt';
+
+const brokerUrl = 'wss://mqtt.flespi.io:443/mqtt'; // Replace with your MQTT broker's URL and port
+const username = 'EgTMirFks4YRF4515lzhovlw2wU0Z4Lkxr8aWaaAG2VeHH5mKL0ngj5Bgr2cPyhP';
+const password = 'huynhdcv1201';
 
 var topicToPublish = 'Huynh1611/esp32client'; // Replace with your topic
 var messageToPublish = 'Hello, MQTT from the web!'; // Message to publish
